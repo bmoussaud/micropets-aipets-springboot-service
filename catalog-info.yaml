@@ -1,17 +1,17 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: birdogss
+  name: aipets
   description: Micropet Micro Service App
   tags:
     - app-accelerator
     - java
     - spring
     - web
-    - tanzu
+    - ai
     - micropets
   annotations:
-    "backstage.io/kubernetes-label-selector": "app.kubernetes.io/name=birdogss"
+    "backstage.io/kubernetes-label-selector": "app.kubernetes.io/name=aipets"
 spec:
   type: service
   lifecycle: experimental

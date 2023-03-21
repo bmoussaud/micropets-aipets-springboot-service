@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BirdogsSummary {
+public class AIPetsSummary {
 
     @JsonProperty(value = "Total")
     int total = 0;
@@ -20,14 +20,14 @@ public class BirdogsSummary {
     String hostname;
 
     @JsonProperty(value = "Pets")
-    List<Birdogs> pets = new ArrayList<>();
+    List<AIPet> pets = new ArrayList<>();
 
-    public void addBirdogs(Birdogs Birdogs) {
-        pets.add(Birdogs);
+    public void addBirdogs(AIPet aipet) {
+        pets.add(aipet);
         total = total + 1;
         this.hostname = getHostname();
-        Birdogs.hostname = this.hostname;
-        Birdogs.uri = String.format("/birdogss/v1/data/%d", Birdogs.index);
+        aipet.hostname = this.hostname;
+        aipet.uri = String.format("/%s/v1/data/%d", AIPet.context, aipet.index);
     }
 
     private String getHostname() {
@@ -40,21 +40,26 @@ public class BirdogsSummary {
 
     @Override
     public String toString() {
-        return "BirdogsSummary [hostname=" + hostname + ", pets=" + pets + ", total=" + total + "]";
+        return "AIPetsSummary [hostname=" + hostname + ", pets=" + pets + ", total=" + total + "]";
     }
 
-    public BirdogsSummary filter() {
+    public AIPetsSummary filter() {
         Collections.shuffle(this.pets);
         Random random = new Random();
         int number = random.nextInt(pets.size());
-        this.pets.removeIf(new Predicate<Birdogs>() {
+        this.pets.removeIf(new Predicate<AIPet>() {
             @Override
-            public boolean test(Birdogs Birdogs) {
-                return Birdogs.index > number;
+            public boolean test(AIPet pet) {
+                return pet.index > number;
             }
         });
         this.total = pets.size();
         return this;
+    }
+
+    public void clear() {
+        this.total = 0;
+        pets.clear();
     }
 
 }

@@ -1,0 +1,109 @@
+package org.moussaud.micropets.pets;
+
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import reactor.core.publisher.Mono;
+
+@Component
+public class AIPetsRepository {
+    private final Random random = new Random();
+    private AIPetsSummary data = new AIPetsSummary();
+
+    public AIPetsSummary generate() {
+        int n = 3;
+
+        data.clear();
+        List<String> images = generateImages(n);
+        List<String> names = generateNames(n);
+        List<String> kinds = generateKinds(n);
+
+        for (int i = 0; i < n; i++) {
+            data.addBirdogs(new AIPet(i, names.get(i), kinds.get(i), random.nextInt(12), images.get(i)));
+        }
+        return data;
+    }
+
+    public AIPetsSummary findAll() {
+        if (data.total == 0) {
+            return generate();
+        } else {
+            return data;
+        }
+    }
+
+    public AIPet findById(long index) {
+        return findAll().pets.get((int) index);
+    }
+
+    private List<String> generateNames(int i) {
+        // https://names.drycodes.com/4?format=json&separator=space&nameOptions=girl_names
+        final WebClient client = WebClient.builder()
+                .baseUrl("https://names.drycodes.com")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        final String[] names = client.get()
+                .uri("/4?format=json&separator=space&nameOptions=girl_names")
+                .retrieve()
+                .bodyToMono(String[].class)
+                .log()
+                .block();
+
+        return List.of(names);
+    }
+
+    private List<String> generateKinds(int i) {
+        // https://names.drycodes.com/4?format=json&separator=space&nameOptions=girl_names
+        final WebClient client = WebClient.builder()
+                .baseUrl("https://names.drycodes.com")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        final String[] names = client.get()
+                .uri("/4?format=json&separator=space")
+                .retrieve()
+                .bodyToMono(String[].class)
+                .log()
+                .block();
+
+        return List.of(names);
+    }
+
+    private List<String> generateImages(int n) {
+        String token = "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";
+
+        WebClient client = WebClient.builder()
+                .baseUrl("https://api.openai.com")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .build();
+
+        Dalle2Request request = new Dalle2Request();
+        request.setN(n);
+        request.setPrompt("A cute dog with wings as a bird");
+        request.setSize("1024x1024");
+        Mono<Dalle2Response> generation = client.post()
+                .uri("/v1/images/generations")
+                .body(Mono.just(request), Dalle2Request.class)
+                .retrieve()
+                .bodyToMono(Dalle2Response.class);
+        // .map(Dalle2Response::getImages);
+
+        Dalle2Response response = generation.log().block();
+        System.out.println(response.getCreatedBy());
+        System.out.println(response.getImages().size());
+        for (Dalle2Image image : response.getImages()) {
+            System.out.println(image);
+        }
+        return response.getImages().stream().map(image -> image.getUrl()).collect(Collectors.toList());
+
+    }
+
+}

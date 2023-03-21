@@ -1,6 +1,6 @@
 spring:
   application:
-    name: birdogss-app 
+    name: aipets-app 
       
 management:
   endpoints:

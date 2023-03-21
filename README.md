@@ -1,5 +1,7 @@
 # Birdogs MicroService
 
+https://tanzu.vmware.com/developer/guides/spring-webclient-gs/
+
 This is a sample of a Java Spring app that works with Tilt and the Tanzu Application Platform.
 It provides the framework to enhance the MicroPet Application
 

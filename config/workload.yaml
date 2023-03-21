@@ -1,20 +1,24 @@
 apiVersion: carto.run/v1alpha1
 kind: Workload
 metadata:
-  name: birdogss
+  name: aipets-java
   labels:
-    app.kubernetes.io/name: birdogss      
+    app.kubernetes.io/name: aipets
     app.kubernetes.io/part-of: micropets
     apps.tanzu.vmware.com/has-tests: "true"
     apps.tanzu.vmware.com/workload-type: web
     micropets/kind: backend
 spec:
+  build:
+    env:
+      - name: BP_JVM_VERSION
+        value: "17"
   serviceAccountName: tap-default
   source:
     git:
-      url: https://github.com/bmoussaud/my-birdogss-svc
+      url: https://github.com/bmoussaud/micropets-aipets-java
       ref:
-        branch: main  
+        branch: main
   params:
     - name: gitops_server_address
       value: https://github.com/
@@ -28,7 +32,7 @@ spec:
       value: false
     - name: annotations
       value:
-        autoscaling.knative.dev/minScale: "1"     
+        autoscaling.knative.dev/minScale: "1"
     - name: testing_pipeline_matching_labels
       value:
         apps.tanzu.vmware.com/pipeline: skip-test
