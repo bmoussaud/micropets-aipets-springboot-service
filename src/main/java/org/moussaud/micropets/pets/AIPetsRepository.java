@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,10 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class AIPetsRepository {
+
+    @Value("${openai.apikey:xxxxxxxx}")
+    String openaiAPIKey;
+
     private final Random random = new Random();
     private AIPetsSummary data = new AIPetsSummary();
 
@@ -77,12 +82,10 @@ public class AIPetsRepository {
     }
 
     private List<String> generateImages(int n) {
-        String token = "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";
-
         WebClient client = WebClient.builder()
                 .baseUrl("https://api.openai.com")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + openaiAPIKey)
                 .build();
 
         Dalle2Request request = new Dalle2Request();
@@ -105,5 +108,11 @@ public class AIPetsRepository {
         return response.getImages().stream().map(image -> image.getUrl()).collect(Collectors.toList());
 
     }
+
+    public String getOpenaiAPIKey() {
+        return openaiAPIKey;
+    }
+
+    
 
 }

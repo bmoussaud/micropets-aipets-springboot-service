@@ -30,7 +30,7 @@ public class Dalle2Response {
 
     @Override
     public String toString() {
-        return "Dalle2Response [createdBy=" + createdBy + ", images=" + images + "]";
+        return "Dalle2Response is [createdBy=" + createdBy + ", images=" + images + "]";
     }
 
     

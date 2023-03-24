@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aipets-config
+  labels:
+    app.kubernetes.io/name: aipets
+    app.kubernetes.io/part-of: micropets
+type: Opaque
+stringData:
+  type: openai    
+  #apikey:  xxx-yyy-zzzz or use exteral secrets below
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: aipets-config-external
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: cluster-azure-backend
+  target:
+    template:     
+      data:        
+        apikey: "{{ .apikey | toString }}"      
+    name: aipets-config
+    creationPolicy: Merge
+  data:
+    - secretKey: apikey
+      remoteRef:
+        key: openai-api
