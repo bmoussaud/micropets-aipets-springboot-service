@@ -18,6 +18,9 @@ public class AIPetsRepository {
     @Value("${openai.apikey:xxxxxxxx}")
     String openaiAPIKey;
 
+    @Value("${openai.prompt:A cute dog with wings as a bird}")
+    String openaiPrompt;
+
     private final Random random = new Random();
     private AIPetsSummary data = new AIPetsSummary();
 
@@ -55,7 +58,7 @@ public class AIPetsRepository {
                 .build();
 
         final String[] names = client.get()
-                .uri("/4?format=json&separator=space&nameOptions=girl_names")
+                .uri("/" + i + "?format=json&separator=space&nameOptions=girl_names")
                 .retrieve()
                 .bodyToMono(String[].class)
                 .log()
@@ -72,7 +75,7 @@ public class AIPetsRepository {
                 .build();
 
         final String[] names = client.get()
-                .uri("/4?format=json&separator=space")
+                .uri("/" + i + "?format=json&separator=space")
                 .retrieve()
                 .bodyToMono(String[].class)
                 .log()
@@ -90,7 +93,7 @@ public class AIPetsRepository {
 
         Dalle2Request request = new Dalle2Request();
         request.setN(n);
-        request.setPrompt("A cute dog with wings as a bird");
+        request.setPrompt(openaiPrompt);
         request.setSize("1024x1024");
         Mono<Dalle2Response> generation = client.post()
                 .uri("/v1/images/generations")
@@ -112,7 +115,5 @@ public class AIPetsRepository {
     public String getOpenaiAPIKey() {
         return openaiAPIKey;
     }
-
-    
 
 }

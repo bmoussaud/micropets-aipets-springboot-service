@@ -9,6 +9,7 @@ metadata:
 type: Opaque
 stringData:
   type: openai    
+  prompt: A photo of a cute sheep with wings as a bird
   #apikey:  xxx-yyy-zzzz or use exteral secrets below
 ---
 apiVersion: external-secrets.io/v1beta1

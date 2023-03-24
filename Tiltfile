@@ -4,6 +4,8 @@ NAMESPACE = 'micropets-dev'
 
 allow_k8s_contexts('aks-eu-tap-5')
 
+k8s_yaml(["config/aipets-config.yaml"])
+
 k8s_custom_deploy(
     'aipets-springboot',
     apply_cmd="tanzu apps workload apply -f config/workload.yaml --live-update" +

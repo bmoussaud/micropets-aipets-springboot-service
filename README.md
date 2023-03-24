@@ -14,6 +14,7 @@ type: Opaque
 stringData:
   type: openai
   apikey: xxxx-yyyy-zzzzz
+  prompt: A photo of a cute sheep with wings as a bird
 ````
 
 

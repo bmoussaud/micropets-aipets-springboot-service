@@ -20,6 +20,7 @@ public final class OpenAIBindingsPropertiesProcessor implements BindingsProperti
             return;
         }
         properties.put("openai.apikey", myBindings.get(0).getSecret().get("apikey"));
+        properties.put("openai.prompt", myBindings.get(0).getSecret().get("prompt"));
         properties.put("openai.enabled", true);
     }
     
