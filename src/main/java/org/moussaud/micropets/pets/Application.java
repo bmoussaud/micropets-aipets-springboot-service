@@ -36,8 +36,9 @@ public class Application {
 			System.out.println("Let's inspect the beans provided by Spring Boot:");
 			System.out.println(repository.getOpenaiAPIKey());
 			System.out.println(repository.getItems());
+			System.out.println(repository.getOpenaiPrompt());
 
-			//String[] beanNames = ctx.getBeanDefinitionNames();
+			// String[] beanNames = ctx.getBeanDefinitionNames();
 			// Arrays.sort(beanNames);
 			// for (String beanName : beanNames) {
 			// System.out.println(beanName);

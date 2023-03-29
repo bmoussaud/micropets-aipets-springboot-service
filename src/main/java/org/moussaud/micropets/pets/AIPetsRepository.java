@@ -17,8 +17,8 @@ public class AIPetsRepository {
 
     @Value("${openai.apikey:xxxxxxxx}")
     String openaiAPIKey;
-
-    @Value("${openai.prompt:A cute dog with wings as a bird}")
+    
+    @Value("${k8s.bindings.app-aipets-config.prompt:A cute dog with wings as a bird}")
     String openaiPrompt;
 
     @Value("${k8s.bindings.app-aipets-config.items:2}")
@@ -120,5 +120,10 @@ public class AIPetsRepository {
     public int getItems() {
         return items;
     }
+
+    public String getOpenaiPrompt() {
+        return openaiPrompt;
+    }
+    
 
 }
