@@ -21,18 +21,19 @@ public class AIPetsRepository {
     @Value("${openai.prompt:A cute dog with wings as a bird}")
     String openaiPrompt;
 
+    @Value("${k8s.bindings.app-aipets-config.items:2}")
+    int items;
+
     private final Random random = new Random();
     private AIPetsSummary data = new AIPetsSummary();
 
     public AIPetsSummary generate() {
-        int n = 3;
-
         data.clear();
-        List<String> images = generateImages(n);
-        List<String> names = generateNames(n);
-        List<String> kinds = generateKinds(n);
+        List<String> images = generateImages(items);
+        List<String> names = generateNames(items);
+        List<String> kinds = generateKinds(items);
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < items; i++) {
             data.addBirdogs(new AIPet(i, names.get(i), kinds.get(i), random.nextInt(12), images.get(i)));
         }
         return data;
@@ -114,6 +115,10 @@ public class AIPetsRepository {
 
     public String getOpenaiAPIKey() {
         return openaiAPIKey;
+    }
+
+    public int getItems() {
+        return items;
     }
 
 }

@@ -8,9 +8,21 @@ metadata:
     app.kubernetes.io/part-of: micropets
 type: Opaque
 stringData:
-  type: openai    
+  type: openai
   prompt: A photo of a cute sheep with wings as a bird
   #apikey:  xxx-yyy-zzzz or use exteral secrets below
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-aipets-config
+  labels:
+    app.kubernetes.io/name: aipets
+    app.kubernetes.io/part-of: micropets
+type: Opaque
+stringData:
+  type: app-config
+  items: "4"
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
@@ -22,9 +34,9 @@ spec:
     kind: ClusterSecretStore
     name: cluster-azure-backend
   target:
-    template:     
-      data:        
-        apikey: "{{ .apikey | toString }}"      
+    template:
+      data:
+        apikey: "{{ .apikey | toString }}"
     name: aipets-config
     creationPolicy: Merge
   data:

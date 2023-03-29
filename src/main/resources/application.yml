@@ -14,5 +14,9 @@ management:
 #org.springframework.cloud.bindings.boot.enable: true
 
 logging:
-  level:    
-    org.springframework.cloud.bindings: DEBUG
+  level:
+    root: ERROR
+    org.springframework.web: ERROR
+    com.howtodoinjava: DEBUG
+    org.hibernate: ERROR
+    org.springframework.cloud.bindings: debug
