@@ -30,4 +30,7 @@ stringData:
   prompt: A photo of a cute pig with on the wing
 ````
 
+![A photo of a cute pig with on the wing](img/dalle2-pig.png)
 
+
+![A photo of a cute sheet with on the wing](img/dalle2-sheep.png)
