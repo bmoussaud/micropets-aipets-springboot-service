@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
@@ -17,7 +19,7 @@ public class AIPetsRepository {
 
     @Value("${openai.apikey:xxxxxxxx}")
     String openaiAPIKey;
-    
+
     @Value("${k8s.bindings.app-aipets-config.prompt:A cute dog with wings as a bird}")
     String openaiPrompt;
 
@@ -29,13 +31,23 @@ public class AIPetsRepository {
 
     public AIPetsSummary generate() {
         data.clear();
-        List<String> images = generateImages(items);
-        List<String> names = generateNames(items);
-        List<String> kinds = generateKinds(items);
+        try {
+            List<String> images = generateImages(items);
+            List<String> names = generateNames(items);
+            List<String> kinds = generateKinds(items);
+            for (int i = 0; i < items; i++) {
+                data.addBirdogs(new AIPet(i, names.get(i), kinds.get(i), random.nextInt(12), images.get(i)));
+            }
 
-        for (int i = 0; i < items; i++) {
-            data.addBirdogs(new AIPet(i, names.get(i), kinds.get(i), random.nextInt(12), images.get(i)));
+        } catch (Exception e) {
+            System.out.println("-------");
+            System.out.println(e);
+            data.addBirdogs(new AIPet(0, e.getClass().getName(), "Kind", random.nextInt(12), "http://error.com/0"));
+            data.addBirdogs(new AIPet(1, e.getClass().getName(), "Kind", random.nextInt(12), "http://error.com/1"));
+            data.addBirdogs(new AIPet(2, e.getClass().getName(), "Kind", random.nextInt(12), "http://error.com/2"));
+            data.addBirdogs(new AIPet(2, e.getClass().getName(), "Kind", random.nextInt(12), "http://error.com/3"));
         }
+
         return data;
     }
 
@@ -100,6 +112,9 @@ public class AIPetsRepository {
                 .uri("/v1/images/generations")
                 .body(Mono.just(request), Dalle2Request.class)
                 .retrieve()
+                .onStatus(status -> status.value() == HttpStatus.UNAUTHORIZED.value(),
+                        response -> Mono.error(new Dalle2Exception("Unauthorized. Please provide Dalle2 Token.",
+                                response.statusCode().value())))
                 .bodyToMono(Dalle2Response.class);
         // .map(Dalle2Response::getImages);
 
@@ -124,6 +139,5 @@ public class AIPetsRepository {
     public String getOpenaiPrompt() {
         return openaiPrompt;
     }
-    
 
 }
