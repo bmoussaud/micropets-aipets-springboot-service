@@ -21,8 +21,8 @@ metadata:
 type: Opaque
 stringData:
   type: app-config
-  items: "4"
-  prompt: A photo of a cute pig with on the wing
+  items: "3"
+  prompt: A photo of a cute flying pig having wings like a bird
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret

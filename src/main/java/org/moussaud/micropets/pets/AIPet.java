@@ -1,11 +1,14 @@
 package org.moussaud.micropets.pets;
 
+import org.springframework.data.annotation.Id;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AIPet {
 
     static public String context = "aipets";
 
+    @Id    
     @JsonProperty(value = "Index")
     Integer index;
 
@@ -37,15 +40,6 @@ public class AIPet {
         this.age = age;
         this.url = url;
         this.type = type;
-    }
-
-    public AIPet(int index, String name, String type, Integer age, String url) {
-
-        this.name = name;
-        this.age = age;
-        this.url = url;
-        this.type = type;
-        this.index = index;
     }
 
     @Override

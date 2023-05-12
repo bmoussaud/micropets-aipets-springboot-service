@@ -22,7 +22,9 @@ public class AIPetsSummary {
     @JsonProperty(value = "Pets")
     List<AIPet> pets = new ArrayList<>();
 
-    public void addBirdogs(AIPet aipet) {
+    private boolean filter = false;
+
+    public void addPet(AIPet aipet) {
         pets.add(aipet);
         total = total + 1;
         this.hostname = getHostname();
@@ -45,15 +47,17 @@ public class AIPetsSummary {
 
     public AIPetsSummary filter() {
         Collections.shuffle(this.pets);
-        Random random = new Random();
-        int number = random.nextInt(pets.size());
-        this.pets.removeIf(new Predicate<AIPet>() {
-            @Override
-            public boolean test(AIPet pet) {
-                return pet.index > number;
-            }
-        });
-        this.total = pets.size();
+        if (filter) {
+            Random random = new Random();
+            int number = random.nextInt(pets.size());
+            this.pets.removeIf(new Predicate<AIPet>() {
+                @Override
+                public boolean test(AIPet pet) {
+                    return pet.index > number;
+                }
+            });
+            this.total = pets.size();
+        }
         return this;
     }
 

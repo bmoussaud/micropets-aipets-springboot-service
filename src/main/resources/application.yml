@@ -1,7 +1,18 @@
 spring:
   application:
     name: aipets-app 
-      
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver        
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  sql:
+    init:
+      platform: h2
+      mode: always      
+           
 management:
   endpoints:
     web:
@@ -20,3 +31,6 @@ logging:
     com.howtodoinjava: DEBUG
     org.hibernate: ERROR
     org.springframework.cloud.bindings: debug
+    org.springframework.jdbc.core.JdbcTemplate: debug
+    org.springframework.jdbc.datasource.init.ScriptUtils: debug
+    org.moussaud.micropets.pets: debug
