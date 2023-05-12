@@ -42,15 +42,6 @@ public class Application {
 			logger.debug("apikey:\t"+ generator.getOpenaiAPIKey());
 			logger.debug("items:\t" +generator.getItems());
 			logger.debug("prompt:\t"+generator.getOpenaiPrompt());
-
-			// String[] beanNames = ctx.getBeanDefinitionNames();
-			// Arrays.sort(beanNames);
-			// for (String beanName : beanNames) {
-			// logger.debug(beanName);
-			// }
-
-			// List<Binding> myBindings = bindings.filterBindings("app-config");
-
 		};
 	}
 }

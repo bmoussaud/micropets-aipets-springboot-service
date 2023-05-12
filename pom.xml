@@ -6,14 +6,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.4</version>
+		<version>3.0.6</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.moussaud.micropets.pets</groupId>
-	<artifactId>birdogss</artifactId>
-	<name>birdogss</name>
+	<artifactId>aipets</artifactId>
+	<name>aipets</name>
 	<version>0.0.1-SNAPSHOT</version>
-	<description>Birdogs Service</description>
+	<description>AIPets Service</description>
 
 	<properties>
 		<java.version>17</java.version>

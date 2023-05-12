@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: micropets
 type: Opaque
 stringData:
-  type: openai  
+  type: openai
   #apikey:  xxx-yyy-zzzz or use exteral secrets below
 ---
 apiVersion: v1
@@ -22,7 +22,7 @@ type: Opaque
 stringData:
   type: app-config
   items: "3"
-  prompt: A photo of a cute flying pig having wings like a bird
+  prompt: "a cute flying pig having wings like a bird , photograph"
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret

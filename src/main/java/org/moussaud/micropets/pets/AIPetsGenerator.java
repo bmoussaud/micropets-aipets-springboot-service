@@ -19,10 +19,10 @@ public class AIPetsGenerator {
 
     static Logger logger = LoggerFactory.getLogger(AIPetsGenerator.class);
 
-    @Value("${openai.apikey:xxxxxxxx}")
+    @Value("${k8s.bindings.openai.apikey:xxxxxxxx}")
     String openaiAPIKey;
 
-    @Value("${k8s.bindings.app-aipets-config.prompt:A cute dog with wings as a bird}")
+    @Value("${k8s.bindings.app-aipets-config.prompt:A tiny mouse}")
     String openaiPrompt;
 
     @Value("${k8s.bindings.app-aipets-config.items:2}")
@@ -98,7 +98,7 @@ public class AIPetsGenerator {
         Dalle2Request request = new Dalle2Request();
         request.setN(n);
         request.setPrompt(openaiPrompt);
-        request.setSize("256x256");
+        request.setSize("512x512");
         Mono<Dalle2Response> generation = client.post()
                 .uri("/v1/images/generations")
                 .body(Mono.just(request), Dalle2Request.class)
