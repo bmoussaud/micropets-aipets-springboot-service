@@ -33,5 +33,4 @@ public class Dalle2Response {
         return "Dalle2Response is [createdBy=" + createdBy + ", images=" + images + "]";
     }
 
-    
 }

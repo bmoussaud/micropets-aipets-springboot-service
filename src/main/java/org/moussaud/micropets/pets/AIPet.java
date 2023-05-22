@@ -8,7 +8,7 @@ public class AIPet {
 
     static public String context = "aipets";
 
-    @Id    
+    @Id
     @JsonProperty(value = "Index")
     Integer index;
 

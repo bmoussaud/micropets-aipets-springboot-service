@@ -38,5 +38,4 @@ public class Dalle2Request {
         return "Dalle2Request [prompt=" + prompt + ", n=" + n + ", size=" + size + "]";
     }
 
-    
 }
