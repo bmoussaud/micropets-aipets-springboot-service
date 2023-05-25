@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AIPetsSummary {
 
+    static private String CONTEXT = "aipets";
+
     @JsonProperty(value = "Total")
     int total = 0;
 
@@ -22,14 +24,21 @@ public class AIPetsSummary {
     @JsonProperty(value = "Pets")
     List<AIPet> pets = new ArrayList<>();
 
-    private boolean filter = false;
+    private boolean filter = true;
+
+    public void addPet(String name, String type, Integer age, String url) {
+        this.hostname = getHostname();
+        total = total + 1;
+        var aipet = new AIPet(null, name, type, age, url, this.hostname,
+                String.format("/%s/v1/data/%d", CONTEXT, total));
+     
+        pets.add(aipet);
+    }
 
     public void addPet(AIPet aipet) {
+        this.hostname = getHostname();
         pets.add(aipet);
         total = total + 1;
-        this.hostname = getHostname();
-        aipet.hostname = this.hostname;
-        aipet.uri = String.format("/%s/v1/data/%d", AIPet.context, aipet.index);
     }
 
     private String getHostname() {
@@ -48,12 +57,12 @@ public class AIPetsSummary {
     public AIPetsSummary filter() {
         Collections.shuffle(this.pets);
         if (filter) {
-            Random random = new Random();
-            int number = random.nextInt(pets.size());
+            final Random random = new Random();
+            final int number = random.nextInt(pets.size());
             this.pets.removeIf(new Predicate<AIPet>() {
                 @Override
                 public boolean test(AIPet pet) {
-                    return pet.index > number;
+                    return pet.index() > number+1;
                 }
             });
             this.total = pets.size();

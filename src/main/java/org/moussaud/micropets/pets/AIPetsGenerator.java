@@ -32,19 +32,23 @@ public class AIPetsGenerator {
     private AIPetsSummary data = new AIPetsSummary();
 
     public AIPetsSummary generateDummy() {
+        logger.debug("--- generateDummy");
         data.clear();
-        data.addPet(new AIPet(this.getClass().getName(), "Kind", random.nextInt(12), "http://error.com/0"));
+        for (int i = 0; i < items; i++) {
+            data.addPet("names" + i, "kind"+i, random.nextInt(12), "image"+i);
+        }
         return data;
     }
 
     public AIPetsSummary generate() {
+        logger.debug("--- generate");
         data.clear();
         try {
             List<String> images = generateImages(items);
             List<String> names = generateNames(items);
             List<String> kinds = generateKinds(items);
             for (int i = 0; i < items; i++) {
-                data.addPet(new AIPet(names.get(i), kinds.get(i), random.nextInt(12), images.get(i)));
+                data.addPet(names.get(i), kinds.get(i), random.nextInt(12), images.get(i));
             }
             return data;
 
