@@ -56,10 +56,8 @@ public class AIPetsController {
 	public AIPetsSummary load() {
 		logger.debug("----LOAD....");
 		AIPetsSummary summary = generator.generate();
-		for (AIPet pet : summary.pets) {
-			logger.debug("Insert in db" + pet);
-			repository.save(pet);
-		}
+		logger.debug("Save All : Insert in db:" + summary.pets);
+		repository.saveAll(summary.pets);
 		return summary;
 	}
 
